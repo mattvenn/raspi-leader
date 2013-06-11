@@ -1,2 +1,2 @@
-parallel-ssh from https://code.google.com/p/parallel-ssh/
+pssh
 udhcpd
