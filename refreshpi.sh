@@ -1,8 +1,8 @@
 #!/bin/bash
 cmd='parallel-ssh -ih pis.list'
-echo "rm all raspi-workshop"
-$cmd rm -rf raspi-workshop
+echo "rm all"
+$cmd 'rm -rf *'
 echo "clone git repo"
-$cmd git clone git@github.com:mattvenn/raspi-workshop
+$cmd git clone https://github.com/mattvenn/raspi-workshop.git
 echo "checking files"
 $cmd ls
