@@ -1,5 +1,9 @@
 #!/bin/bash
-cmd='parallel-ssh -ih pis.list'
+
+#the -X is about passing in the -F ssh_config, -x didn't work because of quoting issues
+cmd="parallel-ssh -ih pis.list -X -F -X ssh_config"
+#cmd='parallel-ssh -ih pis.list'
+
 echo "rm all"
 $cmd 'rm -rf *'
 echo "clone git repo"
