@@ -2,9 +2,6 @@
 
 * only show most recent single file from each user's dir
 * only show .py files
-* sync all graphs to same min and max date
-* sync all grpahs to same min and max code lines
-* continue values into present time if no new data present
 
 # setup on pi
 
