@@ -9,13 +9,13 @@ import os
 def fetch_git(repo_dir):
     os.chdir(repo_dir)
     git_data = []
-    os.system('git checkout master')
+    os.system('git checkout master -q')
     proc = subprocess.Popen(['git', 'log', '--pretty=format:%H %ct'],stdout=subprocess.PIPE)
     commit_log = proc.stdout.readlines()
     for log in commit_log:
         log = log.strip()
         (commit,date) = log.split(' ')
-        os.system('git checkout ' + commit)
+        os.system('git checkout ' + commit + ' -q')
     #    print(commit,date)
         proc = subprocess.Popen(['git', 'diff-tree', '--no-commit-id', '--name-only', '-r', commit],stdout=subprocess.PIPE)
         changes = proc.stdout.readlines()

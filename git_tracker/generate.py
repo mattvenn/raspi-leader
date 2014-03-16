@@ -1,11 +1,13 @@
 from string import Template
 import json
+import pprint
 import random
 import time
 import copy
 from config import *
 import pygit
 
+pp = pprint.PrettyPrinter()
 
 with open('series.html') as fh:
     template = fh.read()
@@ -28,7 +30,6 @@ file_num = 0
 min_time = time.time() * 1000
 max_lines = 0
 for file in files:
-    print(file)
     s = Template(placeholder)
     placeholders += s.safe_substitute({'num':file_num,'file':file})
 
@@ -38,7 +39,7 @@ for file in files:
         if entry["name"] != file:
             continue
 
-        print(entry)
+        pp.pprint(entry)
         line_data.append([entry['time'],entry['lines']])
         if entry['time'] < min_time:
             min_time = entry['time']
@@ -51,6 +52,13 @@ for file in files:
         else:
             syntax = 0
         syntax_data.append([entry['time'],syntax])
+    
+    #copy the last element and set time to now
+    now = int(time.time()) * 1000
+    syntax_data.append(copy.copy(syntax_data[-1]))
+    syntax_data[-1][0] = now
+    line_data.append(copy.copy(line_data[-1]))
+    line_data[-1][0] = now
 
     #interpolate time
     first = True
@@ -85,8 +93,6 @@ with open('op.html','w') as html:
             'javascript':graphs,
             'placeholders':placeholders,
             'min_time': "%d" % (min_time),
-            'max_time': "%d" % (time.time() * 1000),
+            'max_time': "%d" % now,
             'max_lines': max_lines * 1.1,
         }))
-    print min_time
-    print time.time() * 1000
