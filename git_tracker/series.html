@@ -16,9 +16,23 @@
                        color: "rgb(48, 48, 48)",
                        tickColor: "rgba(255, 255, 255, 0)",
                        backgroundColor: "rgb(255, 255, 255)"},
-            xaxis: {
+            xaxis: 
+            {
                 mode: "time",
+                min: $min_time,
+                max: $max_time,
+            }
+                ,
+            yaxes: [{
+                    min: 0,
+                    max: 1,
                 },
+                {
+                    min:0,
+                    max:$max_lines,
+                },
+                ],
+
             // this gets copied to all graphs
             series:
             {
