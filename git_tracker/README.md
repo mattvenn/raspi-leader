@@ -1,8 +1,23 @@
+# todo
+
+* only show most recent single file from each user's dir
+* only show .py files
+* sync all graphs to same min and max date
+* sync all grpahs to same min and max code lines
+
 # setup on pi
 
     git init work
     while true; do git add -A *py ; git commit --allow-empty-message  -m '' ; sleep 1; done
 
+Ideally, no setup will be minimal:
+
+    cd work
+    mkdir myname
+    cd myname
+    tightvncserver
+
+then the newest file in each directory in ~/work will be used for code tracker
 
 #setup on main pc
 
