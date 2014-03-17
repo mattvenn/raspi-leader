@@ -30,7 +30,8 @@ def update():
     #for each host
     for host_ip in host_ips:
         scp_command = 'scp -r %s@%s:%s/* %s/%s/' % (user_name,host_ip,work_dir,local_dir,host_ip)
-        print(scp_command)
+        if verbose:
+            print(scp_command)
         os.system(scp_command)
 
     os.chdir(local_dir)
@@ -42,5 +43,4 @@ def update():
     os.chdir('..')
 
 if __name__ == '__main__':
-    #init()
     update()
