@@ -7,29 +7,39 @@
 	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
 	<script language="javascript" type="text/javascript" src="flot/jquery.js"></script>
 	<script language="javascript" type="text/javascript" src="flot/jquery.flot.js"></script>
+	<script language="javascript" type="text/javascript" src="flot/jquery.flot.time.js"></script>
 	<script type="text/javascript">
 
 	$(function() {
 
         var options =   {
-              grid:   {show: false,
+              grid:   {
                        color: "rgb(48, 48, 48)",
+                       show: false,
+                       /*
+              show: false,
                        tickColor: "rgba(255, 255, 255, 0)",
-                       backgroundColor: "rgb(255, 255, 255)"},
+                       backgroundColor: "rgb(255, 255, 255)"
+                       */
+                       },
             xaxis: 
             {
                 mode: "time",
                 min: $min_time,
                 max: $max_time,
+                ticks: false,
             }
                 ,
             yaxes: [{
                     min: 0,
                     max: 1,
+                    ticks: false,
                 },
                 {
                     min:0,
                     max:$max_lines,
+                    position: 'right',
+                    ticks: false,
                 },
                 ],
 
@@ -63,13 +73,14 @@
 
         $placeholders
 
-		<p>more info here...</p>
+		<p><a href="https://github.com/mattvenn/raspi-leader/tree/master/git_tracker">source on github</a></p>
 
 	</div>
-
+<!--
 	<div id="footer">
 		Copyright &copy; 2007 - 2013 IOLA and Ole Laursen
 	</div>
+-->
 
 </body>
 </html>
