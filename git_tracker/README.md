@@ -34,5 +34,5 @@ The newest file in each student's directory in ~/work will be used for code trac
 
 # Todo
 
-* only show most recent single file from each user's dir
+* refactor procedural code in generate to objects in pygit
 * browse versions of code

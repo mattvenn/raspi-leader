@@ -26,46 +26,42 @@ min_time = time.time() * 1000
 max_lines = 0
 files=[]
 
-#parse the repo
-git_data = pygit.fetch_git(local_dir)
+#fetch details for each user from the repo
+users = pygit.fetch_git(local_dir)
 
-#get list of unique files
-for file in git_data:
-    if file["name"] not in files:
-        files.append(file["name"])
-
-#process each file
-for file in files:
+#process each user - this stuff should probably get refactored into the User object
+for user in users.get_users():
+    if verbose:
+        print(user.name)
     s = Template(placeholder)
     placeholders += s.safe_substitute(
         {
             'num':file_num,
-            'file':file,
-            'repo_dir':local_dir,
+            'link':user.get_path(),
+            'link_name':user.get_link(),
         })
 
     line_data = []
     syntax_data = []
 
     #process history
-    for entry in git_data:
-        if entry["name"] != file:
-            continue
+    for entry in user.get_history():
 
         if verbose:
-            pp.pprint(entry)
-        line_data.append([entry['time'],entry['lines']])
-        if entry['time'] < min_time:
-            min_time = entry['time']
+            entry.pprint()
 
-        if entry['lines'] > max_lines:
-            max_lines = entry['lines']
+        line_data.append([entry.time,entry.lines])
+        if entry.time < min_time:
+            min_time = entry.time
 
-        if entry['syntax']:
+        if entry.lines > max_lines:
+            max_lines = entry.lines
+
+        if entry.syntax:
             syntax = 1
         else:
             syntax = 0
-        syntax_data.append([entry['time'],syntax])
+        syntax_data.append([entry.time,syntax])
     
     #need to continue values from last commit until the present
     #copy the last element and set time to now

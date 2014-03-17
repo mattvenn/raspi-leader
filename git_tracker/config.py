@@ -1,8 +1,8 @@
 #config
 
 verbose = True
-#time_res = 1000 * 60 * 60 * 24 # days
-time_res = 1000 * 60 # minutes
+time_res = 1000 * 60 * 60 #hours
+#time_res = 1000 * 60 # minutes
 #where the local git repo is
 local_dir = './pi_work'
 #only want these files
