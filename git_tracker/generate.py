@@ -30,7 +30,6 @@ files=[]
 git_data = pygit.fetch_git(local_dir)
 
 #get list of unique files
-import ipdb; ipdb.set_trace()
 for file in git_data:
     if file["name"] not in files:
         files.append(file["name"])
