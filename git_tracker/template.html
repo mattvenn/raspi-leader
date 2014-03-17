@@ -10,12 +10,24 @@
 	<script language="javascript" type="text/javascript" src="flot/jquery.flot.time.js"></script>
 	<script type="text/javascript">
 
+    window.setTimeout(function(){ document.location.reload(true); }, 20000);
+
 	$(function() {
+        $("<div id='tooltip'></div>").css({
+                position: "absolute",
+                display: "none",
+                border: "1px solid #fdd",
+                padding: "2px",
+                "background-color": "#fee",
+                opacity: 0.80
+            }).appendTo("body");
+
 
         var options =   {
               grid:   {
                        color: "rgb(48, 48, 48)",
                        show: false,
+                       hoverable: true,
                        /*
               show: false,
                        tickColor: "rgba(255, 255, 255, 0)",
@@ -57,9 +69,6 @@
         $javascript
 
 
-		// Add the Flot version string to the footer
-
-		$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 	});
 
 	</script>
@@ -73,14 +82,12 @@
 
         $placeholders
 
-		<p><a href="https://github.com/mattvenn/raspi-leader/tree/master/git_tracker">source on github</a></p>
+	</div>
 
-	</div>
-<!--
 	<div id="footer">
-		Copyright &copy; 2007 - 2013 IOLA and Ole Laursen
+    <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">code tracker</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/mattvenn/raspi-leader/tree/master/git_tracker" property="cc:attributionName" rel="cc:attributionURL">matt venn</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
 	</div>
--->
+
 
 </body>
 </html>
