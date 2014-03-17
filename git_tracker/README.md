@@ -24,9 +24,9 @@ The newest file in each student's directory in ~/work will be used for code trac
 
 * edit config.py to add hosts for scp,
 * run ./init.py to create local repo and initialise,
-* regulary run crontab ./fetch.py to fetch all work
+* regulary run ./fetch.py to fetch all work
 * regulary run ./generate.py to create the graph.html
-* I serve the file with `python -mSimpleHTTPServer` and fetch at [http://127.0.0.1/graph.html]
+* I serve the file with `python -mSimpleHTTPServer` and fetch from [http://127.0.0.1/graph.html]
 
 # Requirements
 
@@ -35,3 +35,8 @@ The newest file in each student's directory in ~/work will be used for code trac
 # Todo
 
 * browse versions of code
+* capture git stdout for less messy output while running
+
+# License
+
+Code tracker by Matt Venn is licensed under a Creative Commons Attribution 4.0 International License.
