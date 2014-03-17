@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 * fetch all directories under pi:~/work/
 * copy to local repo
@@ -6,9 +7,6 @@
 
 import os
 import shutil
-import pygit
-user_name = 'pi'
-work_dir = '~/work'
 from config import *
 
 def init():
@@ -36,26 +34,13 @@ def update():
         os.system(scp_command)
 
     os.chdir(local_dir)
+    #ensure we're at the head
+    os.system('git checkout master -q')
     #add all python files
-    os.system('git add -A *py')
+    os.system('git add -A ' + file_extension)
     os.system('git commit --allow-empty-message  -m ""')
     os.chdir('..')
-
-#return most recently changed file from each directory on each host
-def get_recent_files():
-    dirs = []
-    for host_ip in host_ips:
-        for dir in os.listdir(local_dir + '/' + host_ip):
-            dirs.append(dir)
-    return dirs
-
 
 if __name__ == '__main__':
     #init()
     update()
-    dirs = get_recent_files()
-    git_data = pygit.parse_git(local_dir)
-    for host_ip in host_ips:
-        for dir in dirs:
-            git_data = pygit.parse_git(local_dir + '/' + host_ip + '/' + dir)
-            print git_data
