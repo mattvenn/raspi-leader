@@ -14,7 +14,7 @@ h2 {
 }
 
 h3 {
-	margin-left: 30px;
+	margin: 10px;
 	font: normal 26px "omnes-pro", Helvetica, Arial, sans-serif;
 	color: #666;
 }
@@ -37,9 +37,9 @@ input[type=checkbox] {
 }
 
 #header {
-	position: relative;
+//	position: relative;
 	width: 900px;
-	margin: auto;
+//	margin: auto;
 }
 
 #header h2 {
@@ -52,7 +52,7 @@ input[type=checkbox] {
 }
 
 #content {
-	width: 1080px;
+//	width: 1080px;
 	margin: 0 auto;
 	padding: 10px;
 }
@@ -64,13 +64,18 @@ input[type=checkbox] {
 	font-size: 12px;
 	color: #999;
 }
+div.inline { 
+    float:left; 
+    width:300px;
+    }
 
 .demo-container {
 	box-sizing: border-box;
 	width: 1000px;
 	height: 50px;
 //	padding: 20px 15px 15px 15px;
-	margin: 5px auto 5px auto;
+//	margin: 5px auto 5px auto;
+    margin-left:300px;
 	border: 1px solid #ddd;
 	background: #fff;
 /*	background: linear-gradient(#f6f6f6 0, #fff 50px);
