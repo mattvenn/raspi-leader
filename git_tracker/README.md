@@ -9,6 +9,9 @@ By fetching the student's code regularly we can look at a some basic metrics to 
 
 These are plotted against time and shown using your browser. 
 
+![screenshot](screenshot.png)
+
+
 Code is added to a local git repo for change tracking and later we could add some kind of code browsing functionality.
 
 # Setup on student's computer
