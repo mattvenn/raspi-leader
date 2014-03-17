@@ -5,7 +5,7 @@ import pprint
 import time
 import copy
 from config import *
-import pygit
+import git_wrapper
 
 pp = pprint.PrettyPrinter()
 
@@ -22,17 +22,16 @@ with open('graph.js') as fh:
 placeholders = ''
 graphs = ''
 file_num = 0
-min_time = time.time() * 1000
-max_lines = 0
 files=[]
 
 #fetch details for each user from the repo
-users = pygit.fetch_git(local_dir)
+users = git_wrapper.fetch_git(local_dir)
 
-#process each user - this stuff should probably get refactored into the User object
+#process each user
 for user in users.get_users():
     if verbose:
         print(user.name)
+
     s = Template(placeholder)
     placeholders += s.safe_substitute(
         {
@@ -41,27 +40,14 @@ for user in users.get_users():
             'link_name':user.get_link(),
         })
 
+    #process history
     line_data = []
     syntax_data = []
-
-    #process history
     for entry in user.get_history():
-
         if verbose:
             entry.pprint()
-
         line_data.append([entry.time,entry.lines])
-        if entry.time < min_time:
-            min_time = entry.time
-
-        if entry.lines > max_lines:
-            max_lines = entry.lines
-
-        if entry.syntax:
-            syntax = 1
-        else:
-            syntax = 0
-        syntax_data.append([entry.time,syntax])
+        syntax_data.append([entry.time,entry.syntax])
     
     #need to continue values from last commit until the present
     #copy the last element and set time to now
@@ -79,7 +65,6 @@ for user in users.get_users():
             for itime in range(last_entry[0]+time_res,entry[0],time_res):
                 new_entry = [itime,last_entry[1]]
                 interpolated_syntax_data.append(new_entry)
-            
 
         interpolated_syntax_data.append(entry)
         last_entry = entry
@@ -106,5 +91,5 @@ with open('graph.html','w') as html:
             'placeholders':placeholders,
             'min_time': "%d" % (min_time),
             'max_time': "%d" % now,
-            'max_lines': max_lines * 1.1,
+            'max_lines': users.get_max_lines() * 1.1,
         }))

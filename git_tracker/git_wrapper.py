@@ -24,6 +24,13 @@ class Users:
         self.users.append(new_user)
         return new_user
 
+    def get_max_lines(self):
+        max_lines = 0
+        for user in self.users:
+            if user.get_max_lines > max_lines:
+                max_lines = user.get_max_lines()
+        return max_lines
+            
     def get_users(self):
         return self.users
    
@@ -34,6 +41,7 @@ class User:
         self.name = name
         self.filename = filename
         self.history = []
+        self.max_lines = 0
 
     def get_path(self):
         return os.path.join(local_dir,self.host,self.name,self.filename)
@@ -46,10 +54,16 @@ class User:
         #if it's a different file, chuck out the old history
         if filename != self.filename:
             self.history = []
+            self.max_lines = 0
         self.history.append(version)
+        if version.lines > self.max_lines:
+            self.max_lines = version.lines
 
     def get_history(self):
         return self.history[::-1]
+
+    def get_max_lines(self):
+        return self.max_lines
 
     def pprint(self):
         print(self.host,self.name,self.filename)
@@ -99,11 +113,11 @@ def fetch_git(repo_dir):
                     data = fh.read()
                     try:
                         compiler.parse(data)
-                        syntax = True
+                        syntax = 1
                     except Exception as e:
                         #print("exception!")
                         #print(e)
-                        syntax = False
+                        syntax = 0
                     lines = len(data.splitlines())
             except IOError:
                 continue
