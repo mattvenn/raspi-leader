@@ -18,17 +18,24 @@ with open('place.html') as fh:
 with open('graph.js') as fh:
     graph_js = fh.read()
 
+#globals
 placeholders = ''
 graphs = ''
-
-files=[]
-git_data = pygit.fetch_git(local_dir)
-for file in git_data:
-    if file["name"] not in files:
-        files.append(file["name"])
 file_num = 0
 min_time = time.time() * 1000
 max_lines = 0
+files=[]
+
+#parse the repo
+git_data = pygit.fetch_git(local_dir)
+
+#get list of unique files
+import ipdb; ipdb.set_trace()
+for file in git_data:
+    if file["name"] not in files:
+        files.append(file["name"])
+
+#process each file
 for file in files:
     s = Template(placeholder)
     placeholders += s.safe_substitute(
@@ -40,6 +47,8 @@ for file in files:
 
     line_data = []
     syntax_data = []
+
+    #process history
     for entry in git_data:
         if entry["name"] != file:
             continue
@@ -67,7 +76,7 @@ for file in files:
     line_data.append(copy.copy(line_data[-1]))
     line_data[-1][0] = now
 
-    #interpolate time
+    #interpolate time so syntax bars are full width
     first = True
     interpolated_syntax_data = []
     for entry in syntax_data:
@@ -80,18 +89,20 @@ for file in files:
         interpolated_syntax_data.append(entry)
         last_entry = entry
         first = False
-    
         
     syntax_data = interpolated_syntax_data
 
+    #substitute
     s = Template(graph_js)
     graphs += s.safe_substitute({'num':file_num,
         'syntax_data':json.dumps(syntax_data),
         'line_data':json.dumps(line_data),
         'bar_width':time_res})
 
+    #for placeholder id
     file_num += 1
 
+#final substitution
 with open('graph.html','w') as html:
     s = Template(template)
     html.write(s.safe_substitute(
