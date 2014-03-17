@@ -27,7 +27,7 @@ class Users:
     def get_max_lines(self):
         max_lines = 0
         for user in self.users:
-            if user.get_max_lines > max_lines:
+            if user.get_max_lines() > max_lines:
                 max_lines = user.get_max_lines()
         return max_lines
             
@@ -54,13 +54,14 @@ class User:
         #if it's a different file, chuck out the old history
         if filename != self.filename:
             self.history = []
+            self.filename = filename
             self.max_lines = 0
         self.history.append(version)
         if version.lines > self.max_lines:
             self.max_lines = version.lines
 
     def get_history(self):
-        return self.history[::-1]
+        return self.history
 
     def get_max_lines(self):
         return self.max_lines
@@ -91,6 +92,7 @@ def fetch_git(repo_dir):
     os.system('git checkout master -q')
     proc = subprocess.Popen(['git', 'log', '--pretty=format:%H %ct'],stdout=subprocess.PIPE)
     commit_log = proc.stdout.readlines()
+    commit_log.reverse()
     for log in commit_log:
         log = log.strip()
         (commit,date) = log.split(' ')
@@ -125,8 +127,11 @@ def fetch_git(repo_dir):
             #times 1000 for javascript flot
             time = int(date) * 1000 
             history = History(commit,time,lines,syntax)
+
             user.add_version(filename,history)
 
+    #reset to head
+    os.system('git checkout master -q')
     os.chdir('..')
     return users
 
