@@ -1,7 +1,7 @@
+#!/usr/bin/python
 from string import Template
 import json
 import pprint
-import random
 import time
 import copy
 from config import *
@@ -9,7 +9,7 @@ import pygit
 
 pp = pprint.PrettyPrinter()
 
-with open('series.html') as fh:
+with open('template.html') as fh:
     template = fh.read()
 
 with open('place.html') as fh:
@@ -31,7 +31,12 @@ min_time = time.time() * 1000
 max_lines = 0
 for file in files:
     s = Template(placeholder)
-    placeholders += s.safe_substitute({'num':file_num,'file':file})
+    placeholders += s.safe_substitute(
+        {
+            'num':file_num,
+            'file':file,
+            'repo_dir':local_dir,
+        })
 
     line_data = []
     syntax_data = []
@@ -39,7 +44,8 @@ for file in files:
         if entry["name"] != file:
             continue
 
-        pp.pprint(entry)
+        if verbose:
+            pp.pprint(entry)
         line_data.append([entry['time'],entry['lines']])
         if entry['time'] < min_time:
             min_time = entry['time']
@@ -53,6 +59,7 @@ for file in files:
             syntax = 0
         syntax_data.append([entry['time'],syntax])
     
+    #need to continue values from last commit until the present
     #copy the last element and set time to now
     now = int(time.time()) * 1000
     syntax_data.append(copy.copy(syntax_data[-1]))
@@ -73,7 +80,6 @@ for file in files:
         interpolated_syntax_data.append(entry)
         last_entry = entry
         first = False
-    #need to continue values until now
     
         
     syntax_data = interpolated_syntax_data
@@ -86,7 +92,7 @@ for file in files:
 
     file_num += 1
 
-with open('op.html','w') as html:
+with open('graph.html','w') as html:
     s = Template(template)
     html.write(s.safe_substitute(
         {
