@@ -14,6 +14,13 @@ local_dir = './pi_work'
 file_extension='*py'
 
 #variables for student's computers
-host_ips = [ '192.168.0.12' ]
+host_ips = [
+        'raspberrypi1.local',
+        'raspberrypi2.local',
+        'raspberrypi3.local',
+        'raspberrypi4.local',
+        '10.42.0.54',
+        '10.42.0.55',
+    ]
 user_name = 'pi'
 work_dir = '~/work'
