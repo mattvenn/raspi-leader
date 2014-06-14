@@ -29,7 +29,7 @@ def init():
 def update():
     #for each host
     for host_ip in host_ips:
-        scp_command = 'scp -r %s@%s:%s/* %s/%s/' % (user_name,host_ip,work_dir,local_dir,host_ip)
+        scp_command = 'scp -F ssh_config -r %s@%s:%s/* %s/%s/' % (user_name,host_ip,work_dir,local_dir,host_ip)
         if verbose:
             print(scp_command)
         os.system(scp_command)
